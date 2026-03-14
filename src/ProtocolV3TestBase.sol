@@ -179,8 +179,8 @@ contract ProtocolV3TestBase is RawProtocolV3TestBase, SeatbeltUtils, CommonTestB
 
   function _isBorrowableInAnyEMode(IPool pool, address asset) internal view returns (bool) {
     uint16 reserveId = pool.getReserveData(asset).id;
-    for (uint8 categoryId = 1; categoryId != 0; categoryId++) {
-      uint128 borrowableBitmap = pool.getEModeCategoryBorrowableBitmap(categoryId);
+    for (uint256 categoryId = 1; categoryId <= 255; categoryId++) {
+      uint128 borrowableBitmap = pool.getEModeCategoryBorrowableBitmap(uint8(categoryId));
       if (
         borrowableBitmap != 0 &&
         EModeConfiguration.isReserveEnabledOnBitmap(borrowableBitmap, reserveId)
